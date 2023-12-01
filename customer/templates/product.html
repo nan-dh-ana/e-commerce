@@ -1,0 +1,79 @@
+{%  extends 'navbar.html' %}
+
+
+{% block nav %}
+<h1 class="bg-info text-center">Product Details</h1>
+{% if messages %}
+        {% for i in messages %}
+            {%if i.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <div class="alert alert-success alert-dismissible">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>{{i}}</strong> 
+          </div>
+            {% endif %}
+            {%if i.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>{{i}}</strong> 
+          </div>
+          {% endif%}
+        {%endfor%}
+    {%endif%}
+<div class="row mt-5 container">
+    <div  class="col">
+        <img src="{{data.image.url}}"height=80% width="100%" alt="">
+    </div>
+    <div class="col">
+        <ul class="list-group">
+            <li class="list-group-item">Name : <b>{{data.name}}</b></li>
+            <li class="list-group-item">Type : <b>{{data.type}}</b></li>
+            <li class="list-group-item">Description : <b>{{data.description}}</b></li>
+            <li class="list-group-item">Price : <b>{{data.price}}</b></li>
+            <li class="list-group-item">
+                <a href="{% url 'acart' data.id %}" onclick="return confirm('Add to Cart?')" class="btn btn-warning">Add to Cart</a>
+            </li>
+            <!-- <li class="list-group-item">
+                {{form}}
+            </li> -->
+        </ul> 
+    </div>
+</div>
+<div class="container mx-5 my-3">
+    <!-- <h3 class="text-primary">User Review</h3> -->
+    <button type="button" class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#demo">Add Review</button>
+    <form action="{% url 'addrev' data.id %}" method="post" class="collapse" id="demo">
+        {%csrf_token%}
+            <table class="table table-borderless">
+                    {{form.as_table}}
+            
+            </table>
+             <button class="btn btn-success">Submit</button>
+            <!-- </div> -->
+     </form>
+       
+        <div class="mt-5">
+            {% for i in review %}
+            <div class=" border border-5 border-secondary mb-3 ">
+                <h5>{{i.review}}</h5>
+                <p class="text-end">User:{{i.user.first_name}} {{i.user.last_name}}</p>
+                <p class="text-end">{{i.date}}</p>
+
+            {% endfor %}
+            </div>
+            
+    </div>
+</div>
+
+
+ 
+<!-- {% endblock nav %}
+<div class="container">
+    <h2>Simple Collapsible</h2>
+    <p>Click on the button to toggle between showing and hiding content.</p>
+    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Simple collapsible</button>
+    <div id="demo" class="collapse">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </div>
+  </div> -->
